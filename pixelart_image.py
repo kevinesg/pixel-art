@@ -4,7 +4,6 @@ import cv2
 
 NUM_CLUSTERS = 10   # Number of colors in the pixel art
 SCALE = 4   # One square has a width and height both equal to SCALE (SCALE = 8 means 8x8 pixels)
-#IMG_PATH = '''IMAGE FILE PATH'''
 IMG_PATH = '''IMAGE FILE PATH'''
 
 
