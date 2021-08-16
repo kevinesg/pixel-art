@@ -3,9 +3,13 @@ Use `pixelart_image.py` to generate pixel art for images and `pixelart_video.py`
 
 Tunable parameters are size of each "square pixel" and number of colors in the generated pixel art.
 
-![sample image pixel art](https://user-images.githubusercontent.com/60960803/129445375-d6f59d3b-2055-4901-9f98-2c556fdf8ee7.png)
+![park 5 colors 8 pixels](https://user-images.githubusercontent.com/60960803/129565808-3c64a400-7b7d-4feb-8af6-baa37775e629.png)
 
-Here is a side-by-side comparison of an image and its pixel art.
+
+![sunset 10 colors 8 pixels](https://user-images.githubusercontent.com/60960803/129565812-fc268782-744d-4582-a565-63391060b3bd.png)
+
+
+Here are side-by-side comparisons of an image and its pixel art. Both images have 10 colors and 8x8 pixel size per "square pixel". 4x4 pixel variations of each image can be found in the `sample images` folder.
 
 A video clip example can be found [here](https://www.youtube.com/watch?v=EHsXOqVr6LA). It is the `sample video pixel art.mp4` file included in this repo.
 #
