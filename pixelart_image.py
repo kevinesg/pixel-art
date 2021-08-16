@@ -2,17 +2,18 @@ from functions import pixel_art
 import numpy as np
 import cv2
 
-NUM_CLUSTERS = 16   # Number of colors in the pixel art
-SCALE = 8   # One square has a width and height both equal to SCALE (SCALE = 8 means 8x8 pixels)
-IMG_PATH = '''image path'''
+NUM_CLUSTERS = 10   # Number of colors in the pixel art
+SCALE = 4   # One square has a width and height both equal to SCALE (SCALE = 8 means 8x8 pixels)
+#IMG_PATH = '''IMAGE FILE PATH'''
+IMG_PATH = 'C:/Users/kevinesg/Desktop/sunset.jpg'
 
 
 # Generate the pixel art
-canvas = pixel_art(IMG_PATH, num_clusters=10, scale=8)
+canvas = pixel_art(IMG_PATH, num_clusters=NUM_CLUSTERS, scale=SCALE)
 
 # This part is optional; this displays the original image and pixel art side by side
 img = cv2.imread(IMG_PATH)
-combined_imgs = np.hstack([img, canvas])
+combined_imgs = np.hstack([img / 255, canvas])
 cv2.imshow('Original Image and Pixel Art comparison', combined_imgs)
 cv2.waitKey(0)
 cv2.destroyAllWindows()

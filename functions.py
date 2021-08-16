@@ -1,6 +1,6 @@
 import numpy as np
 import cv2
-from colorthief import ColorThief
+from sklearn.cluster import KMeans
 
 
 # Generates a pixel art of an individual frame/image
@@ -13,48 +13,32 @@ def pixel_art(frame, num_clusters=20, scale=8):
     '''
 
     img = cv2.imread(frame)
-    ct = ColorThief(frame)
-    # Get the cluster points
-    palette = ct.get_palette(color_count=num_clusters)
-    # Reverse the channels from RGB to BGR (OpenCV uses BGR format)
-    new_palette = []
-    for point in palette:
-        new_point = [0, 0, 0]
-        new_point[0] = point[2]
-        new_point[1] = point[1]
-        new_point[2] = point[0]
-        new_palette.append(new_point)
-    palette = new_palette
-
-    # Get the rescaled frame dimensions depending on the scale
-    frame_resized = cv2.resize(img, [int(img.shape[1] / scale), int(img.shape[0] / scale)])
-    # Create a blank canvas where we will paint the pixel art
-    canvas = np.zeros((img.shape))
+    # Combine the height and width dimensions so that kmeans can read the data
+    flattened_img = img.reshape([int(img.shape[0] * img.shape[1]), img.shape[2]])
+    # Initialize and fit kmeans clustering algorithm
+    kmeans = KMeans(n_clusters=num_clusters)
+    kmeans.fit(flattened_img)
+    final_clusters = np.round(kmeans.cluster_centers_).astype(np.uint8)
     
+    # Get the rescaled frame dimensions depending on the scale
+    frame_resized = cv2.resize(img, (int(img.shape[1] / scale), int(img.shape[0] / scale)))
+    # Combine the height and width dimensions so that kmeans can read the data
+    resized_flattened = frame_resized.reshape(
+        [int(frame_resized.shape[0] * frame_resized.shape[1]), frame_resized.shape[2]]
+    )
+    clusters = kmeans.predict(resized_flattened)
+    new_img = final_clusters[clusters].reshape(frame_resized.shape) / 255
+
+    canvas = np.empty(img.shape)
+    # Paint the canvas with the correct cluster point
     for y in range(frame_resized.shape[0]):
         for x in range(frame_resized.shape[1]):
-            pixel = frame_resized[y, x]
-            d = 10000   # Arbitrarily large initial distance (will be replaced immediately)
-            for point in palette:
-                # Calculate Euclidean distance
-                distance = np.sqrt(
-                    (point[0] - pixel[0]) ** 2 + (point[1]- pixel[1]) ** 2 + (point[2]- pixel[2]) ** 2
-                )
-
-                # Choose the nearest cluster point
-                if distance < d:
-                    d = distance
-                    cluster = point
-
-            # Paint the canvas with the correct cluster point        
             ix = int(scale * x)
             iy = int(scale * y)
             ix_ = int(scale * (x + 1))
             iy_ = int(scale * (y + 1))
-            canvas[iy:iy_, ix:ix_] = cluster
-
-    # Convert float to int because opencv only accepts int values
-    canvas = canvas.astype(np.uint8)
+            color = new_img[y, x]
+            canvas[iy:iy_, ix:ix_] = color
 
     return canvas
 
@@ -75,7 +59,7 @@ def write_video(file_path, frames, fps):
 
     # Compile the frames into a video file
     for i, frame in enumerate(frames):
-        print(f'[INFO] Writing frame #{i + 1}')
+        print(f'[INFO] Writing frame #{i + 1}...')
         writer.write(frame)
     
     writer.release()
