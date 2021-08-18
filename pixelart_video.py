@@ -4,7 +4,7 @@ import cv2
 import os
 
 
-VIDEO_FILE = '''video file path'''
+VIDEO_FILE = '''VIDEO FILE PATH'''
 vid = cv2.VideoCapture(VIDEO_FILE)
 
 # Initialize the list of frames
