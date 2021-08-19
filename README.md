@@ -11,6 +11,6 @@ Tunable parameters are size of each "square pixel" and number of colors in the g
 
 Here are side-by-side comparisons of an image and its pixel art. Both images have 10 colors and 8x8 pixel size per "square pixel". 4x4 pixel variations of each image can be found in the `sample images` folder.
 
-A video clip example can be found [here](https://www.youtube.com/watch?v=EHsXOqVr6LA). It is the `sample video pixel art.mp4` file included in this repo.
+A video clip example can be found [here](https://www.youtube.com/watch?v=IsKueTwmYco). It is the video clip included in this repo.
 #
 If you have any questions or suggestions, feel free to contact me here. Thanks for reading!
